@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -327,14 +328,28 @@ fun NoteCard(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LockScreen(onUnlockClick: () -> Unit) {
-    androidx.compose.foundation.layout.Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = androidx.compose.ui.Alignment.Center
-    ) {
-        Button(onClick = onUnlockClick) {
-            Text("Unlock")
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("") })
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp)
+        ) {
+            Text(text = "Your notes are locked. Please authenticate to continue.", style = MaterialTheme.typography.bodyLarge)
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = onUnlockClick,
+                modifier = Modifier.align(androidx.compose.ui.Alignment.Center)
+            ) {
+                Text("Unlock with Biometrics")
+            }
         }
     }
 }
